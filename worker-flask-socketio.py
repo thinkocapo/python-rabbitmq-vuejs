@@ -1,3 +1,12 @@
+
+
+
+
+
+
+
+
+
 #!/usr/bin/env python
 import pika
 
@@ -21,8 +30,19 @@ def callback(ch, method, properties, body):
     
 channel.basic_consume(queue='hello', on_message_callback=callback)
 
-# channel.exchange_declare(exchange='topic_logs', exchange_type='topic')
-
-
 print(' [*] Waiting for messages. To exit press CTRL+C')
 channel.start_consuming()
+
+
+
+
+
+from flask import Flask, render_template
+from flask_socketio import SocketIO
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret!'
+socketio = SocketIO(app)
+
+if __name__ == '__main__':
+    socketio.run(app)

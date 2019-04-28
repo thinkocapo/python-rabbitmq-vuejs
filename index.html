@@ -1,42 +1,46 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
-    <title>Socket.IO chat</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-      #messages { margin-bottom: 40px }
-    </style>
+    <meta charset="utf-8">
+    <title>MY EXAMPLE</title>
+    <!-- <link href="main.css" rel="stylesheet" type="text/css"/> -->
   </head>
+  <script src="stomp.js"></script>
+  <script>
+      console.log('***********')
+      var ws = new WebSocket('ws://127.0.0.1:15674/ws');
+      console.log('111', ws)
+      var client = Stomp.over(ws);
+      console.log('222', client)
+
+      // STOMP
+    //   console.log("hostname ", window.location.hostname) // undefined
+    //   var client = Stomp.client('ws://' + 'localhost' + ':15674/ws');
+      var client = Stomp.client('ws://' + '127.0.0.1' + ':15674/ws');
+
+    //   client.debug = pipe('#second');
+
+
+      var on_connect = function(x) {
+        //   id = client.subscribe("/topic/topic_log", function(d) {
+            console.log("CONNECTED")
+          id = client.subscribe("/queue/hello", function(d) {
+              console.log("QUEUE HELLLO")
+          });
+      };
+
+      var on_error =  function(err) {
+        console.log('ERROR ====', err);
+      };
+      client.connect('guest', 'guest', on_connect, on_error, '/');
+      
+  </script>
   <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-      $(function () {
-        var socket = io();
-        $('form').submit(function(){
-            console.log('11111')
-          socket.emit('chat message', $('#m').val());
-          console.log('22222')
-          $('#m').val('');
-          return false;
-        });
-        socket.on('chat message', function(msg){
-            console.log('socket.on 3333')
-          $('#messages').append($('<li>').text(msg));
-          window.scrollTo(0, document.body.scrollHeight);
-        });
-      });
-    </script>
+    <h1>WILL'S EXAMPLES</h1>
+    <!-- <ul class="menu">
+      <li><a href="echo.html">Simple Echo Server</a></li>
+      <li><a href="bunny.html">Bunny Drawing</a></li>
+      <li><a href="temp-queue.html">Temporary Queue Example</a></li>
+    </ul> -->
   </body>
 </html>
