@@ -7,25 +7,19 @@
   </head>
   <script src="stomp.js"></script>
   <script>
-      console.log('***********')
       var ws = new WebSocket('ws://127.0.0.1:15674/ws');
       console.log('111', ws)
       var client = Stomp.over(ws);
       console.log('222', client)
 
-      // STOMP
     //   console.log("hostname ", window.location.hostname) // undefined
     //   var client = Stomp.client('ws://' + 'localhost' + ':15674/ws');
       var client = Stomp.client('ws://' + '127.0.0.1' + ':15674/ws');
 
-    //   client.debug = pipe('#second');
-
-
       var on_connect = function(x) {
-        //   id = client.subscribe("/topic/topic_log", function(d) {
-            console.log("CONNECTED")
-          id = client.subscribe("/queue/hello", function(d) {
-              console.log("QUEUE HELLLO")
+        console.log("CONNECTED")
+          id = client.subscribe("/topic/test", function(d) {
+              console.log("11111 HELLO 111111")
           });
       };
 
@@ -33,6 +27,10 @@
         console.log('ERROR ====', err);
       };
       client.connect('guest', 'guest', on_connect, on_error, '/');
+
+      // doesnt work, cause of blocking above? well only looking for 1-way comm for now...so not a problem. realistic
+    //   client.send('/topic/test', {"content-type":"text/plain"}, "data some");
+
       
   </script>
   <body>
