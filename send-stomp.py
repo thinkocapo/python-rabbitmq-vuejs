@@ -49,4 +49,4 @@ client.send("/topic/test", "This is the body of the frame.")
 
 # AUTO DISCONNECT
 # time.sleep(5) # Inject some sleep so the frames all get picked up before we fire a disconnect message.
-# client.disconnect()
+client.disconnect()

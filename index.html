@@ -5,6 +5,8 @@
     <title>MY EXAMPLE</title>
     <!-- <link href="main.css" rel="stylesheet" type="text/css"/> -->
   </head>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
   <script src="stomp.js"></script>
   <script>
         var ws = new WebSocket('ws://127.0.0.1:15674/ws');
@@ -12,8 +14,11 @@
         var client = Stomp.client('ws://' + '127.0.0.1' + ':15674/ws'); // 'localhost' and window.location.hostname is undefined
 
         var on_connect = function(x) {
-            console.log("CONNECTED")
-            id = client.subscribe("/topic/test", function(d) {
+            console.info("Stomp over WS connected to RabbitMQ")
+            id = client.subscribe("/topic/test", function(data) {
+              console.log('**** MESSAGED CONSUMED *****', data)
+              // TODO insert message onto vue app element el: '#app', see if works.
+
             });
         };
 
@@ -21,13 +26,24 @@
             console.log('ERROR ====', err);
         };
         client.connect('guest', 'guest', on_connect, on_error, '/');
-
-        // doesnt execute, is it because client.connect is blocking/listening?
-        // don't need client.send anyways.
-        // client.send('/topic/test', {"content-type":"text/plain"}, "data some");
       
   </script>
   <body>
     <h1>WILL'S EXAMPLES</h1>
+    <div id="app">
+      {{ message }}
+    </div>
   </body>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      }
+    })
+  </script>
 </html>
+
+<!-- // doesnt execute, is it because client.connect is blocking/listening?
+// don't need client.send anyways.
+// client.send('/topic/test', {"content-type":"text/plain"}, "data some"); -->
