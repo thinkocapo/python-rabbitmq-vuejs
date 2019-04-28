@@ -1,38 +1,44 @@
-#Overview
+# thinkocapo/python-rabbitmq-vue
+rabbitmq-python-vue
 
-THERE ARE 2 protocools, AMQP and STOMP
 
 ## Setup - Run RabbitMQ
 1. `rabbitmq-server start`
+2. enable the rabbitmq 'web stomp' plugin `rabbitmq-plugins enable rabbitmq_web_stomp`
 
+## Know the Protocools
 
+*This project's browser integration uses STOMP*
+
+There are 3 protocools, AMQP, MQTT and STOMP  
 [AMPQP MQTT vs STOMP](https://blogs.vmware.com/vfabric/2013/02/choosing-your-messaging-protocol-amqp-mqtt-or-stomp.html)
+STOMP was used because the Browser side javascript can directly consume Messages from RabbitMQ. The library stompjs wraps around a websocket to do this.
 
-## AMQP
+other modules considered, pika.py but couldn't open a socket/websocket back to browser. Rabbitmq channel seemed blocking/listening, so code for socket would never execute - and vice versa if socket connection formed first.
+flaskSocketIO had same/similar issue.
+
+### AMQP
 Optional, for testing
 1. `cd amqp`
-1. receive.py, send.py
+1. `python receive.py` (terminal1) then `python send.py` (terminal2)
 or
-2. worker.py, new_task.py
+2. `python worker.py` (terminal`) then `python new_task.py` (terminal2)
 
-## STOMP
+### STOMP
 Makefile for this?
-1. rabbitmq-server start (terminal1)
-2. File > Open > index.html
-3. pythong stomp.py *(terminal2)
-4. Expected Result - logs in index.html console
+1. `rabbitmq-server start` (terminal1)
+2. Chrome > File > Open > index.html
+3. `python stomp.py` (terminal2)
+4. Chrome > it logs in index.html console that message was received
 
 
 
-
-
-3. RabbitMQ Web Stomp Plugin
-
-// OLD
-- ran `make` some log activity, it hung, or is designed to do that. then stopped it
-- `rabbitmq-plugins enable rabbitmq_web_stomp` from https://www.rabbitmq.com/web-stomp.html
-- http://127.0.0.1:15670/ for echo, bunny
-- http://127.0.0.1:15670/web-stomp-examples/echo.html
+### The Official Rabbitmq Example Apps
+- `git clone` it from https://github.com/rabbitmq/rabbitmq-web-stomp-examples
+- I ran its `make` command, different log activity each time. hung, or ended. unsure if this way necessary / what it does.
+- https://www.rabbitmq.com/web-stomp.html mentions these examples
+- access them on http://127.0.0.1:15670/, http://127.0.0.1:15670/web-stomp-examples/echo.html
+- thinkocapo/run-rabbit-pythons-are-rabbitmq-ing
 
 
 ## Notes

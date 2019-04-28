@@ -9,15 +9,11 @@
   <script>
         var ws = new WebSocket('ws://127.0.0.1:15674/ws');
         var client = Stomp.over(ws);
-
-        // console.log("hostname ", window.location.hostname) // undefined
-        // var client = Stomp.client('ws://' + 'localhost' + ':15674/ws');
-        var client = Stomp.client('ws://' + '127.0.0.1' + ':15674/ws');
+        var client = Stomp.client('ws://' + '127.0.0.1' + ':15674/ws'); // 'localhost' and window.location.hostname is undefined
 
         var on_connect = function(x) {
             console.log("CONNECTED")
             id = client.subscribe("/topic/test", function(d) {
-                console.log("11111 HELLO 111111")
             });
         };
 
@@ -29,15 +25,9 @@
         // doesnt execute, is it because client.connect is blocking/listening?
         // don't need client.send anyways.
         // client.send('/topic/test', {"content-type":"text/plain"}, "data some");
-
       
   </script>
   <body>
     <h1>WILL'S EXAMPLES</h1>
-    <!-- <ul class="menu">
-      <li><a href="echo.html">Simple Echo Server</a></li>
-      <li><a href="bunny.html">Bunny Drawing</a></li>
-      <li><a href="temp-queue.html">Temporary Queue Example</a></li>
-    </ul> -->
   </body>
 </html>
