@@ -1,15 +1,5 @@
 #!/usr/bin/env python
-import time
 import pika
-
-
-# SOCKET IO
-# import socketio
-# create a Socket.IO server
-# sio = socketio.Server()
-# wrap with a WSGI application
-# app = socketio.WSGIApp(sio)
-
 
 
 # Pika to Queue
@@ -17,6 +7,7 @@ connection = pika.BlockingConnection(
     pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 channel.queue_declare(queue='hello')
+import time
 
 
 # Task or computation
@@ -28,9 +19,10 @@ def callback(ch, method, properties, body):
     print(" [x] Done")
     ch.basic_ack(delivery_tag = method.delivery_tag)
     
-channel.basic_consume(
-    queue='hello',
-    on_message_callback=callback)
+channel.basic_consume(queue='hello', on_message_callback=callback)
+
+# channel.exchange_declare(exchange='topic_logs', exchange_type='topic')
+
 
 print(' [*] Waiting for messages. To exit press CTRL+C')
 channel.start_consuming()
