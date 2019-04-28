@@ -43,7 +43,7 @@ listener.start()
 client.listening_event.wait()
 
 client.connect()
-# client.subscribe("/topic/test", frame_received)
+client.subscribe("/topic/test", frame_received)
 client.send("/topic/test", "This is the body of the frame.")
 # client.send("/topic/test", '{"key": "Another frame example."}') # JSON PARSE this
 
