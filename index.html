@@ -3,31 +3,59 @@
   <head>
     <meta charset="utf-8">
     <title>MY EXAMPLE</title>
-    <!-- <link href="main.css" rel="stylesheet" type="text/css"/> -->
   </head>
+
+  <script src="consumer/app.js"></script>
+
+  <!-- VUE.JS -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <body>
+    <h1>WILL'S EXAMPLES</h1>
+    <div id="app">
+      {{ message }}
+    </div>
+  </body>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      }
+    })
+  </script>
+  
+  <!-- STOMP.JS -->
   <script src="stomp.js"></script>
   <script>
+    // LOGS
+      console.log("APP a DDAPP", app.message)
+      app.message = "barnyard"
+
         var ws = new WebSocket('ws://127.0.0.1:15674/ws');
         var client = Stomp.over(ws);
-        var client = Stomp.client('ws://' + '127.0.0.1' + ':15674/ws'); // 'localhost' and window.location.hostname is undefined
-
+        var client = Stomp.client('ws://' + '127.0.0.1' + ':15674/ws');
         var on_connect = function(x) {
-            console.log("CONNECTED")
-            id = client.subscribe("/topic/test", function(d) {
+            console.info("Stomp over WS connected to RabbitMQ")
+            id = client.subscribe("/topic/test", function(data) {
+              console.log('**** MESSAGED CONSUMED *****', data) // TODO insert message onto vue app element el: '#app', see if works.
+              app.message = data.body
             });
         };
-
         var on_error =  function(err) {
             console.log('ERROR ====', err);
         };
         client.connect('guest', 'guest', on_connect, on_error, '/');
-
-        // doesnt execute, is it because client.connect is blocking/listening?
-        // don't need client.send anyways.
-        // client.send('/topic/test', {"content-type":"text/plain"}, "data some");
-      
   </script>
-  <body>
-    <h1>WILL'S EXAMPLES</h1>
-  </body>
+
+
+
 </html>
+
+
+<!-- <link href="main.css" rel="stylesheet" type="text/css"/> -->
+
+<!-- 'localhost' and window.location.hostname is undefined -->
+
+<!-- // doesnt execute, is it because client.connect is blocking/listening?
+// don't need client.send anyways.
+// client.send('/topic/test', {"content-type":"text/plain"}, "data some"); -->
