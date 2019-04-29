@@ -26,11 +26,20 @@ import stomp
 import threading
 import logging
 import time
+#python command line parser and http libraries
+import requests
+import argparse
 
 logging.basicConfig(level=logging.DEBUG)
 
 from stompclient import PublishSubscribeClient
+# HEY
+parser = argparse.ArgumentParser()
+parser.add_argument("msg", help="pass your s3cret")
+args = parser.parse_args()
+psst = args.msg 
 
+# works if you don't disconnect produce.py 
 def frame_received(frame):
     # Do something with the frame!
     print "----Received Frame----\n%s\n-----" % frame
@@ -44,8 +53,8 @@ client.listening_event.wait()
 
 client.connect()
 client.subscribe("/topic/test", frame_received)
-client.send("/topic/test", "This is the body of the frame.")
-# client.send("/topic/test", '{"key": "Another frame example."}') # JSON PARSE this
+client.send("/topic/test", psst)
+# client.send("/topic/test", '{"key": "Another 1frame example."}') # JSON PARSE this
 
 # AUTO DISCONNECT
 # time.sleep(5) # Inject some sleep so the frames all get picked up before we fire a disconnect message.

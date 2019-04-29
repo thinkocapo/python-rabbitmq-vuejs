@@ -17,6 +17,11 @@ STOMP was used because the Browser side javascript can directly consume Messages
 other modules considered, pika.py but couldn't open a socket/websocket back to browser. Rabbitmq channel seemed blocking/listening, so code for socket would never execute - and vice versa if socket connection formed first.
 flaskSocketIO had same/similar issue.
 
+Flask Sockets and Flask Pika
+Browser Javascript > Sockets > Flask > Pika > RabbitMQ
+Flask Pika - could not get to work https://github.com/wdtinc/flask-pika, low popularity and support
+Flask Sockets - even if work with Javascript Sockets then still needs access to AMQP RabbitMQ
+
 ### AMQP
 Optional, for testing
 1. `cd amqp`
