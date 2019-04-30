@@ -14,6 +14,10 @@ import time
 def callback(ch, method, properties, body):
     print(method)
     print(" [x] Received %r" % properties)
+    print body
+
+    import pdb
+    pdb.set_trace()
     time.sleep(body.count(b'.'))
     # sio.emit('my event', {'data': 'foobar'})
     print(" [x] Done")

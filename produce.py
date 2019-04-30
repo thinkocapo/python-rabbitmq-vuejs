@@ -26,20 +26,20 @@ import stomp
 import threading
 import logging
 import time
-#python command line parser and http libraries
 import requests
 import argparse
 
 logging.basicConfig(level=logging.DEBUG)
 
 from stompclient import PublishSubscribeClient
-# HEY
+
+# Parse the message sent as argument
 parser = argparse.ArgumentParser()
 parser.add_argument("msg", help="pass your s3cret")
 args = parser.parse_args()
 psst = args.msg 
 
-# works if you don't disconnect produce.py 
+# works if you keep produce.py connected (don't .disconnect()) 
 def frame_received(frame):
     # Do something with the frame!
     print "----Received Frame----\n%s\n-----" % frame
